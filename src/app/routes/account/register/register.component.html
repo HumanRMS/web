@@ -1,0 +1,107 @@
+<div class="container">
+
+    <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+                <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                <div class="col-lg-7">
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                        </div>
+                        <form class="user" #registerForm="ngForm">
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input type="text" class="form-control form-control-user" id="firstName"
+                                        placeholder="First Name" name="firstName" required pattern="^[A-Z'a-z]*$"
+                                        autocomplete="off" #firstName="ngModel" [(ngModel)]="loginModel.FirstName">
+
+                                    <span class="text-danger"
+                                        *ngIf="firstName.errors?.['required'] && (firstName.dirty || firstName.touched)">
+                                        First Name is required.
+                                    </span>
+                                    <span class="text-danger" *ngIf="firstName.errors?.['pattern']">
+                                        First Name is invalid
+                                    </span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control form-control-user" id="exampleLastName"
+                                        placeholder="Last Name" name="lastName" required pattern="^[A-Z'a-z]*$"
+                                        autocomplete="off" #lastName="ngModel" [(ngModel)]="loginModel.LastName">
+                                    <span class="text-danger"
+                                        *ngIf="lastName.errors?.['required'] && (lastName.dirty || lastName.touched)">
+                                        Last Name is required.
+                                    </span>
+                                    <span class="text-danger" *ngIf="lastName.errors?.['pattern']">
+                                        Last Name is invalid
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" class="form-control form-control-user" id="email"
+                                    placeholder="Email Address" name="email" required
+                                    pattern="^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$" [(ngModel)]="loginModel.Email"
+                                    #email="ngModel">
+                                <span class="text-danger"
+                                    *ngIf="email.errors?.['required'] && (email.dirty || email.touched)">
+                                    Email is required.
+                                </span>
+                                <span class="text-danger" *ngIf="email.errors?.['pattern']">
+                                    Email is invalid
+                                </span>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input type="password" class="form-control form-control-user" id="password"
+                                        name="password" placeholder="Password" required
+                                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d!@#$%^&*]{8,15}$"
+                                        [(ngModel)]="loginModel.Password" #password="ngModel">
+                                    <span class="text-danger"
+                                        *ngIf="password.errors?.['required'] && (password.dirty || password.touched)">
+                                        Password is required.
+                                    </span>
+                                    <span class="text-danger"
+                                        *ngIf="password.errors?.['pattern']">
+                                        Password is invalid.
+                                    </span>
+                                </div>
+
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input type="password" class="form-control form-control-user" id="password"
+                                        name="confirmPassword" placeholder="Confirm Password" required
+                                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d!@#$%^&*]{8,15}$"
+                                        id="confirmPassword" required (input)="comparePassword()"
+                                        [(ngModel)]="loginModel.ConfirmPassword" #confirmPassword="ngModel">
+                                   
+                                        
+                                        <span class="text-danger"
+                                        *ngIf="confirmPassword.errors?.['required'] && (confirmPassword.dirty || confirmPassword.touched)">
+                                        Confirm Password is required.
+                                    </span>
+                                    <span class="text-danger" *ngIf="confirmPasswordValidation"> Password not matching</span>
+ 
+                                </div>
+                            </div>
+                            <a (click)="signUp(registerForm)" class="btn btn-primary btn-user btn-block">
+                                Register Account
+                            </a>
+                            <!-- <hr>
+                            <a href="index.html" class="btn btn-google btn-user btn-block">
+                                <i class="fab fa-google fa-fw"></i> Register with Google
+                            </a> -->
+                        </form>
+                        <hr>
+                        <div class="text-center">
+                            <a class="small" [routerLink]="['/forgot-password']">Forgot Password?</a>
+                        </div>
+                        <div class="text-center">
+                            <a class="small" [routerLink]="['/']">Already have an account? Login!</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

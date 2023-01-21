@@ -1,0 +1,72 @@
+{
+  "SignIn": {
+    "Headers": {
+      "WelcomeBack": "परत स्वागत आहे!"
+    },
+    "Fields": {
+      "UserName":"वापरकर्तानाव",
+      "Password":"पासवर्ड",
+      "ForgotPassword":"पासवर्ड विसरलात?",
+      "CreateanAccount":"खाते तयार करा!",
+      "RememberMe":"माझी आठवण ठेवा"
+
+    }
+  },
+  "Employees": {
+    "Employees": "कर्मचारी",
+    "Name":"नाव",
+    "BirthDate":"जन्मतारीख",
+    "Mobile":"मोबाईल",
+    "Gender":"लिंग",
+    "Action":"कृती"
+  },
+  
+  "ManageEmployee": {
+    "Headers": {
+      "ManageEmployee": "कर्मचारी व्यवस्थापित करा",
+      "Employees":"कर्मचारी"
+    },
+    "Fields": {
+      "FirstName":"पहिले नाव",
+      "MiddleName":"मधले नाव",
+      "LastName":"आडनाव",
+      "Gender":"लिंग",
+      "DOB":"जन्मतारीख",
+      "Mobile":"मोबाईल"
+    },
+    "ValidationMsg":{
+      "FirstNameRequired":"प्रथम नाव आवश्यक आहे.",
+      "FirstNamePattern":"प्रथम नाव अवैध आहे.",
+      "MiddleNameRequired":"मधले नाव आवश्यक आहे.",
+      "MiddleNamePattern":"मधले नाव अवैध आहे.",
+      "LastNameRequired":"आडनाव आवश्यक आहे.",
+      "LastNamePattern":"आडनाव अवैध आहे.",
+      "GenderRequired":"लिंग आवश्यक आहे.",
+      "DOBRequired":"जन्मतारीख आवश्यक आहे.",
+      "MobileRequired":"मोबाईल आवश्यक आहे.",
+      "MobilePattern":"मोबाईल अवैध आहे."
+    }
+  },
+
+  "Buttons": {
+    "Login": "लॉगिन करा",
+    "LoginwithGoogle":"Google सह लॉगिन करा",
+    "Submit":"प्रस्तुत करणे",
+    "Update":"अपडेट करा",
+    "Cancel":"रद्द करा",
+    "Add":"जोडा"
+  },
+
+  "CommonLables":{
+    "Showing":"दाखवत आहे",
+    "to":"करण्यासाठी",
+    "of":"च्या",
+    "records":"नोंदी.."
+  },
+
+  "Toasts": {
+    "SomethingWentWrong": "काहीतरी चूक झाली.",
+    "CodeSentMsg": "तुमच्या मोबाईलवर कोड पाठवला होता. कृपया तपासा.",
+    "InvalidOTPMsg": "OTP अवैध आहे किंवा कालबाह्य झाला आहे."
+  }
+}

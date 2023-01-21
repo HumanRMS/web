@@ -1,0 +1,30 @@
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">{{'LeavePlanner.LeavePlanner' | translate }}</h1>
+        <a [routerLink]="['organization-leave']" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"> Set Organization Leaves</a>
+    </div>
+    <!-- Content Row -->
+    <div class="form-group">
+        <div class="card">
+            <div class="card-body">
+                <full-calendar #fullcalendar [options]="calendarOptions">
+                    <ng-template #eventContent let-arg >
+
+                        <ul class="calenderUL" [ngSwitch]="arg.event._def.extendedProps.Status">
+                            <li *ngSwitchCase="leaveStatus.Pending" ><a href="javascript:void(0)" ><span class="text-warning">{{ arg.event.title }}</span></a></li>
+                            <li *ngSwitchCase="leaveStatus.Approved"><a href="javascript:void(0)" ><span class="text-success">{{ arg.event.title }}</span></a></li>
+                            <li *ngSwitchCase="leaveStatus.Rejected"><a href="javascript:void(0)" ><span class="text-danger" >{{ arg.event.title }}</span></a></li>
+                            <li *ngSwitchCase="leaveStatus.Cancel"  ><a href="javascript:void(0)" ><span class="text-default">{{ arg.event.title }}</span></a></li>
+                        </ul>
+                    </ng-template>
+                </full-calendar>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- https://getbootstrap.com/docs/4.0/components/list-group/ -->

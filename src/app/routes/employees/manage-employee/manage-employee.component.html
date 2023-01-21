@@ -1,0 +1,234 @@
+<ng-template #uploadImage>
+  <form>
+    <div class="card card-default">
+      <div class="card-body heading"> Upload Image</div>
+      <div class="form-group">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+          <image-cropper [roundCropper]="true" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+            [aspectRatio]="4 / 4" format="png" (imageCropped)="imageCropped($event)" >
+          </image-cropper>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+          <div class="account-settings">
+            <div class="user-profile">
+              <div class="user-avatar">
+                <label for="image" style="cursor:pointer">
+                  <img [src]="croppedImage" alt="Maxwell Admin">
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="text-right">
+              <button class="btn btn-primary" type="button" (click)="saveImage()"
+                rippleEffect>Save</button>
+              <button class="btn btn-outline-secondary common-label ml-2" type="button" (click)="cancelImage()"
+                rippleEffect>Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+
+
+<div class="container">
+  <div class="row gutters">
+    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+      <div class="card h-100">
+        <div class="card-body">
+          <div class="account-settings">
+            <div class="user-profile">
+              <div class="user-avatar">
+                <label for="image" style="cursor:pointer">
+                  <input type="file" (change)="fileChangeEvent($event)" name="image" id="image" style="display:none;" />
+                  <img [src]="croppedImage" alt="Maxwell Admin">
+                </label>
+              </div>
+              <h5
+                *ngIf="(employee.FirstName!=null&& employee.FirstName!=undefined&&employee.FirstName!='undefined')&&(employee.LastName!=null&& employee.LastName!=undefined&&employee.LastName!='undefined')"
+                class="user-name">{{employee.FirstName + " " + employee.LastName}} </h5>
+              <h6 class="user-email">{{employee.Email}}</h6>
+            </div>
+            <div class="about" *ngIf="employeeId!=null && employeeId!=undefined && employeeId!=''">
+              <h5>About<a style="cursor:pointer" (click)="ondescriptionClick()"><i class="ml-2 fa fa-pencil"></i></a></h5>
+              <div>
+                <textarea rows="10"  [(ngModel)]="employee.Description" name="description" id="description"  *ngIf="descriptionClicked" class="form-control"></textarea>
+                <div class="form-group row mt-2">
+                  <div class="text-right">
+                    <button *ngIf="descriptionClicked" class="btn btn-primary"  (click)="updateDescription()">{{'Buttons.Submit' | translate}}</button>
+                    <button *ngIf="descriptionClicked" (click)="ondescriptionClick()" class="btn btn-secondary ml-1">{{'Buttons.Cancel' |translate}}</button>
+                  </div>
+                </div>
+              </div>
+              <p *ngIf="!descriptionClicked">{{employee.Description}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+      <div class="card h-100">
+        <div class="card-body">
+          <form #employeeForm="ngForm">
+            <div class="row gutters">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <h6 class="mb-2 text-primary">Personal Details</h6>
+              </div>
+
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                <div class="form-group">
+                  <label for="firstName">{{'ManageEmployee.Fields.FirstName' | translate }}</label>
+                  <input [disabled]="employeeId!=null && employeeId!=undefined && employeeId!=''" class="form-control"
+                    [(ngModel)]="employee.FirstName" type="text" name="firstName" id="firstName"
+                    placeholder="{{'ManageEmployee.Fields.FirstName' | translate }}" #firstName="ngModel" required
+                    pattern="^[A-Z a-z]*$">
+
+                  <span class="text-danger"
+                    *ngIf="firstName.errors?.required && (firstName.dirty || firstName.touched)">{{'ManageEmployee.ValidationMsg.FirstNameRequired'
+                    | translate }}</span>
+                  <span class="text-danger"
+                    *ngIf="firstName.errors?.pattern">{{'ManageEmployee.ValidationMsg.FirstNamePattern' | translate
+                    }}</span>
+                </div>
+              </div>
+
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                <div class="form-group">
+                  <label for="middleName">{{'ManageEmployee.Fields.MiddleName' | translate }}</label>
+                  <input [disabled]="employeeId!=null && employeeId!=undefined && employeeId!=''" class="form-control"
+                    [(ngModel)]="employee.MiddleName" type="text" name="middleName" id="middleName"
+                    placeholder="{{'ManageEmployee.Fields.MiddleName' | translate }}" #middleName="ngModel" required
+                    pattern="^[A-Z a-z]*$">
+                  <span class="text-danger"
+                    *ngIf="middleName.errors?.required && (middleName.dirty || middleName.touched)">{{'ManageEmployee.ValidationMsg.MiddleNameRequired'
+                    | translate }}</span>
+                  <span class="text-danger"
+                    *ngIf="middleName.errors?.pattern">{{'ManageEmployee.ValidationMsg.MiddleNamePattern' | translate
+                    }}</span>
+                </div>
+              </div>
+
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                <div class="form-group">
+                  <label for="lastName">{{'ManageEmployee.Fields.LastName' | translate }}</label>
+                  <input [disabled]="employeeId!=null && employeeId!=undefined && employeeId!=''" class="form-control"
+                    [(ngModel)]="employee.LastName" type="text" name="lastName" id="lastName"
+                    placeholder="{{'ManageEmployee.Fields.LastName' | translate }}" #lastName="ngModel" required
+                    pattern="^[A-Z a-z]*$">
+                  <span class="text-danger"
+                    *ngIf="lastName.errors?.required && (lastName.dirty || lastName.touched)">{{'ManageEmployee.ValidationMsg.LastNameRequired'
+                    | translate }}</span>
+                  <span class="text-danger"
+                    *ngIf="lastName.errors?.pattern">{{'ManageEmployee.ValidationMsg.LastNamePattern'
+                    | translate }}</span>
+                </div>
+              </div>
+
+
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                <div class="form-group">
+                  <label for="email">{{'ManageEmployee.Fields.Email' | translate }}</label>
+                  <input [disabled]="employeeId!=null && employeeId!=undefined && employeeId!=''" class="form-control"
+                    [(ngModel)]="employee.Email" type="text" name="email" id="email"
+                    placeholder="{{'ManageEmployee.Fields.Email' | translate }}" #email="ngModel" required
+                    pattern="^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$">
+                  <span class="text-danger"
+                    *ngIf="email.errors?.required && (email.dirty || email.touched)">{{'ManageEmployee.ValidationMsg.EmailNamePattern'
+                    | translate }}</span>
+                  <span class="text-danger"
+                    *ngIf="email.errors?.pattern">{{'ManageEmployee.ValidationMsg.EmailPattern'
+                    | translate }}</span>
+                </div>
+              </div>
+
+
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                <div class="form-group">
+                  <label for="gender">{{'ManageEmployee.Fields.Gender' | translate }}</label>
+                  <select id="gender" [(ngModel)]="employee.Gender" name="gender" class="form-control" #gender="ngModel"
+                    required>
+                    <option value="null">Select Gender</option>
+                    <option *ngFor="let item of genders" [value]="item.value">{{item.text}}</option>
+                  </select>
+                  <span class="text-danger"
+                    *ngIf="gender.errors?.required && (gender.dirty || gender.touched)">{{'ManageEmployee.ValidationMsg.GenderRequired'
+                    | translate }}</span>
+
+                </div>
+              </div>
+
+
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                <div class="form-group">
+                  <label for="dob">{{'ManageEmployee.Fields.DOB' | translate }}</label>
+                  <input class="form-control" [(ngModel)]="employee.BirthDate" type="date" name="dob" id="dob"
+                    placeholder="{{'ManageEmployee.Fields.DOB' | translate }}" #dob="ngModel" required>
+                  <span class="text-danger"
+                    *ngIf="dob.errors?.required && (dob.dirty || dob.touched)">{{'ManageEmployee.ValidationMsg.DOBRequired'
+                    |
+                    translate }}</span>
+                </div>
+              </div>
+
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                <div class="form-group">
+                  <label for="mobile">{{'ManageEmployee.Fields.Mobile' | translate }}</label>
+                  <input class="form-control" [(ngModel)]="employee.Mobile" type="text" name="mobile" id="mobile"
+                    placeholder="{{'ManageEmployee.Fields.Mobile' | translate }}" #mobile="ngModel" required
+                    maxlength="10" pattern="^[0-9]*$">
+                  <span class="text-danger"
+                    *ngIf="mobile.errors?.required && (mobile.dirty || mobile.touched)">{{'ManageEmployee.ValidationMsg.MobileRequired'
+                    | translate }}</span>
+                  <span class="text-danger"
+                    *ngIf="mobile.errors?.pattern">{{'ManageEmployee.ValidationMsg.MobilePattern' |
+                    translate }}</span>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row gutters" *ngIf="employeeId==null || employeeId==undefined || employeeId==''">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <h6 class="mt-3 mb-2 text-primary">About</h6>
+              </div>
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="form-group">
+                  <label for="landmark">Description</label>
+                  <textarea [(ngModel)]="employee.Description" name="description" id="description"   class="form-control"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="row gutters">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="text-right">
+                  <button *ngIf="employeeId!=null && employeeId!=undefined && employeeId!=''" class="btn btn-primary"
+                    [disabled]="employeeForm.invalid" (click)="update(employeeForm)">{{'Buttons.Update' | translate
+                    }}</button>
+                  <button *ngIf="employeeId==null || employeeId==undefined || employeeId==''" class="btn btn-primary"
+                    [disabled]="employeeForm.invalid" (click)="create(employeeForm)">{{'Buttons.Submit' | translate
+                    }}</button>
+                  <button [routerLink]="['/employees']" class="btn btn-secondary ml-1">{{'Buttons.Cancel' | translate
+                    }}</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>

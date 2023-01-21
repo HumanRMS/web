@@ -1,0 +1,72 @@
+{
+  "SignIn": {
+    "Headers": {
+      "WelcomeBack": "वापसी पर स्वागत है!"
+    },
+    "Fields": {
+      "UserName":"उपयोगकर्ता नाम",
+      "Password":"पासवर्ड",
+      "ForgotPassword":"पासवर्ड भूल गए?",
+      "CreateanAccount":"खाता बनाएं!",
+      "RememberMe":"मुझे याद रखें"
+
+    }
+  },
+
+
+  "Employees": {
+    "Employees": "कर्मचारी",
+    "Name":"नाम",
+    "BirthDate":"जन्म की तारीख",
+    "Mobile":"मोबाईल",
+    "Gender":"लिंग",
+    "Action":"गतिविधि"
+  },
+  "ManageEmployee": {
+    "Headers": {
+      "ManageEmployee": "कर्मचारी प्रबंधित करें"
+    },
+    "Fields": {
+      "FirstName":"पहला नाम",
+      "MiddleName":"मध्य नाम",
+      "LastName":"उपनाम",
+      "Gender":"लिंग",
+      "DOB":"जन्म की तारीख",
+      "Mobile":"मोबाईल"
+    },
+    "ValidationMsg":{
+      "FirstNameRequired":"पहला नाम आवश्यक है।",
+      "FirstNamePattern":"प्रथम नाम अमान्य है।",
+      "MiddleNameRequired":"मध्य नाम आवश्यक है.",
+      "MiddleNamePattern":"मध्य नाम अमान्य है।",
+      "LastNameRequired":"उपनाम आवश्यक है।",
+      "LastNamePattern":"उपनाम अमान्य है।",
+      "GenderRequired":"लिंग आवश्यक है।",
+      "DOBRequired":"जन्म तिथि आवश्यक है।",
+      "MobileRequired":"मोबाइल की आवश्यकता है।",
+      "MobilePattern":"मोबाइल अमान्य है।"
+    }
+  },
+
+  "Buttons": {
+    "Login": "लॉग इन करें",
+    "LoginwithGoogle":"Google के साथ लॉगिन करें",
+    "Submit":"प्रस्तुत करना",
+    "Update":"अद्यतन",
+    "Cancel":"रद्द करना",
+    "Add":"जोड़ें"
+  },
+
+  "CommonLables":{
+    "Showing":"दिखा",
+    "to":"प्रति",
+    "of":"का",
+    "records":"रिकॉर्ड।"
+  },
+
+  "Toasts": {
+    "SomethingWentWrong": "कुछ गलत हो गया।",
+    "CodeSentMsg": "कोड आपके मोबाइल पर भेज दिया गया था। कृपया जाँच करें।",
+    "InvalidOTPMsg": "ओटीपी अमान्य है या समाप्त हो गया है।"
+  }
+}

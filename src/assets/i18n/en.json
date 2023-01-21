@@ -1,0 +1,78 @@
+{
+  "SignIn": {
+    "Headers": {
+      "WelcomeBack": "Welcome Back!"
+    },
+    "Fields": {
+      "UserName": "UserName",
+      "Password": "Password",
+      "ForgotPassword": "Forgot Password?",
+      "CreateanAccount": "Create an Account!",
+      "RememberMe": "Remember Me"
+    }
+  },
+
+  "Employees": {
+    "Employees": "Employees",
+    "Name":"Name",
+    "BirthDate":"Birth Date",
+    "Mobile":"Mobile",
+    "Gender":"Gender",
+    "Action":"Action"
+  },
+
+  "LeavePlanner": {
+    "LeavePlanner": "Leave Planner"
+  },
+
+  "ManageEmployee": {
+    "Headers": {
+      "ManageEmployee": "Manage Employee"
+    },
+    "Fields": {
+      "FirstName": "First Name",
+      "MiddleName": "Middle Name",
+      "LastName": "Last Name",
+      "Email": "Email",
+      "Gender": "Gender",
+      "DOB": "Date of Birth",
+      "Mobile": "Mobile"
+    },
+    "ValidationMsg": {
+      "FirstNameRequired": "First Name is required.",
+      "FirstNamePattern": "First Name is invalid.",
+      "MiddleNameRequired": "Middle Name is required.",
+      "MiddleNamePattern": "Middle Name is invalid.",
+      "LastNameRequired": "Last Name is required.",
+      "LastNamePattern": "Last Name is invalid.",
+      "EmailNamePattern": "Email is required.",
+      "EmailPattern":  "Email is invalid.",
+      "GenderRequired": "Gender is required.",
+      "DOBRequired": "Date Of Birth is required.",
+      "MobileRequired": "Mobile is required.",
+      "MobilePattern": "Mobile is invalid."
+    }
+  },
+
+  "Buttons": {
+    "Login": "Login",
+    "LoginwithGoogle": "Login with Google",
+    "Submit": "Submit",
+    "Update": "Update",
+    "Cancel": "Cancel",
+    "Add":"Add"
+  },
+
+"CommonLables":{
+  "Showing":"Showing",
+  "to":"to",
+  "of":"of",
+  "records":"records."
+},
+
+  "Toasts": {
+    "SomethingWentWrong": "Something went wrong.",
+    "CodeSentMsg": "Code was sent to your mobile.Please check.",
+    "InvalidOTPMsg": "The OTP is invalid or expired."
+  }
+}

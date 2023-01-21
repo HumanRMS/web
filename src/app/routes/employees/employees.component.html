@@ -1,0 +1,74 @@
+
+
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">{{'Employees.Employees' | translate }}</h1>
+      <a [routerLink]="['manage-employee']" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+          class="fa fa-plus text-white-50"></i> {{'Buttons.Add' | translate }} </a>
+    </div>
+    <!-- Content Row -->
+    <div class="form-group">
+        <div class="card">
+            <div class="card-body">
+                <ngx-datatable #table [rows]="grid.rows" [rowHeight]="'auto'" [limit]="10"
+                class="bootstrap core-bootstrap" [columnMode]="ColumnMode.force" [headerHeight]="40" [footerHeight]="50"
+                [scrollbarH]="true" [limit]="currentPageLimit" (sort)="onSort($event)">
+                <ngx-datatable-column name="{{'Employees.Name' | translate }}">
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                   <img class="employee-profile" [src]="row.Gender=='Male'?'assets/img/male.png':'assets/img/female.png'">
+                    {{ row.FirstName }} {{ row.LastName }}
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="{{'Employees.BirthDate' | translate }}">
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{ row.BirthDate }}
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="{{'Employees.Mobile' | translate }}">
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{ row.Mobile }}
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="{{'Employees.Gender' | translate }}">
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{ row.Gender }}
+                  </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="{{'Employees.Action' | translate }}" [sortable]="false">
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    <a title="Edit" class="mr-2" [routerLink]="['manage-employee',row.Id]"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                    <a style="margin-left: 10px" title="Delete" href="javascript:void(0);"><i class="fa fa-trash"
+                          aria-hidden="true"></i></a>
+                  </ng-template>
+                </ngx-datatable-column>
+                
+                <ngx-datatable-footer>
+                  <ng-template ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="grid.findOpion.size"
+                    let-curPage="grid.findOpion.page" let-offset="offset">
+                    <div style="padding: 5px 10px">
+                      <div>
+                        {{'CommonLables.Showing' | translate }} {{ ((grid.findOpion.page * grid.findOpion.size) - grid.findOpion.size +1) }} {{'CommonLables.to' | translate }}
+                        {{grid.findOpion.total > (grid.findOpion.page * grid.findOpion.size)?
+                        (grid.findOpion.page * grid.findOpion.size):grid.findOpion.total
+                        }}
+                        {{'CommonLables.of' | translate }} {{ grid.findOpion.total }} {{'CommonLables.records' | translate }}
+                
+                      </div>
+                    </div>
+                    <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'"
+                      [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'"
+                      [pagerNextIcon]="'datatable-icon-skip'" [page]="grid.findOpion.page" [size]="grid.findOpion.size"
+                      [count]="grid.findOpion.total" (change)="onPageChange($event)">
+                    </datatable-pager>
+                  </ng-template>
+                </ngx-datatable-footer>
+                </ngx-datatable>
+            </div>
+        
+        </div>
+        
+        
+    </div>
+</div>

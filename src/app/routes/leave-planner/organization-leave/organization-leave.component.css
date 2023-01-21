@@ -1,0 +1,5 @@
+.ngx-datatable .datatable-footer .datatable-footer-inner {
+    display: none !important;
+    align-items: center;
+    width: 100%;
+}
