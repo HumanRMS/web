@@ -1,5 +1,5 @@
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { isDevMode, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 
@@ -25,7 +25,7 @@ import { RequestInterceptor } from './shared/services/http.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToastrModule } from 'ngx-toastr';
-
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 
 // AoT requires an exported function for factories
@@ -69,6 +69,12 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     positionClass: 'toast-top-right',
     preventDuplicates: true,
   }),
+  ServiceWorkerModule.register('ngsw-worker.js', {
+    enabled: !isDevMode(),
+    // Register the ServiceWorker as soon as the application is stable
+    // or after 30 seconds (whichever comes first).
+    registrationStrategy: 'registerWhenStable:30000'
+  })
   ],
   providers: [ 
     AUTH_PROVIDERS,
