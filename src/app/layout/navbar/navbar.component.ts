@@ -28,6 +28,13 @@ export class NavbarComponent implements OnInit {
   getProfile() {
     this.navbarService.getProfile().subscribe(
       (res) => {
+        var sessionUser = this.authenticationService.getUser();
+        if(sessionUser!=null && sessionUser!=undefined)
+        {
+          sessionUser.Email = res.ReturnObject.Email;
+          sessionUser.Name = res.ReturnObject.Name;
+          this.authenticationService.setUser(sessionUser);          
+        }
         this.user = res.ReturnObject;
       },
       (err) => {}

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/authentication/authentication.service';
 import { APIResponseStatus, AssigneeType, DurationType, LeaveEventType, LeaveStatus } from 'src/app/shared/models/Enum';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { LeavePlannerService } from '../leave-planner.service';
@@ -22,13 +23,15 @@ export class ManageLeaveComponent implements OnInit  {
   durationTypes:any[]=[{Id:DurationType.FullDay,Name:"Full Day"},{Id:DurationType.HalfDay,Name:"Half Day"}];
   leaveStatus:any = LeaveStatus;
   modalRef: NgbModalRef;
-  
+  currentUser:any = {};
   constructor(private alertService:AlertService,
     private modalService: NgbModal,
     private leavePlannerService :LeavePlannerService,
     private route:ActivatedRoute,
-    private router:Router)
+    private router:Router,
+    private authenticationService:AuthenticationService)
   {
+    this.currentUser = this.authenticationService.getUser();
     this.route.params.subscribe((s) => (this.eventModel.Id = s['id']));
     if (this.eventModel.Id != null && this.eventModel.Id != undefined && this.eventModel.Id != '' && this.eventModel.Id != 'new') 
     {
@@ -60,7 +63,17 @@ export class ManageLeaveComponent implements OnInit  {
       if(res != null && res != undefined)
       {
           res.forEach((element:any) => {
-            this.approverList.push({Id : element.UserId , Name : element.FirstName + " "+ element.LastName +"("+ element.Mobile +")"})
+            if (this.eventModel.Id == null || this.eventModel.Id == undefined || this.eventModel.Id != '' || this.eventModel.Id == 'new') 
+            {
+              if(this.currentUser.Email != element.Email)
+              {
+                this.approverList.push({Id : element.UserId , Name : element.FirstName + " "+ element.LastName +"("+ element.Mobile +")"})
+              }
+            }
+            else
+            {
+              this.approverList.push({Id : element.UserId , Name : element.FirstName + " "+ element.LastName +"("+ element.Mobile +")"})
+            }
           });
       }
     };
