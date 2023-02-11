@@ -11,14 +11,13 @@ import { NavbarService } from './navbar.service';
 })
 export class NavbarComponent implements OnInit {
   selectedLanguage:string;
-  user:any={};
-  notifications:any[]=[];
+  user:any = {};
+  notifications:any[] = [];
 
   constructor(private navbarService:NavbarService,private notificationService:NotificationService,private translate: TranslateService,private authenticationService:AuthenticationService) { this.selectedLanguage = this.translate.currentLang;}
 
   ngOnInit(): void {
     this.getProfile();
-    this.getNotification();
   }
   
   changeLanguage(lan:any) {
@@ -26,28 +25,23 @@ export class NavbarComponent implements OnInit {
   }
 
   getProfile() {
-    this.navbarService.getProfile().subscribe(
-      (res) => {
-        var sessionUser = this.authenticationService.getUser();
-        if(sessionUser!=null && sessionUser!=undefined)
-        {
-          sessionUser.Email = res.ReturnObject.Email;
-          sessionUser.Name = res.ReturnObject.Name;
-          this.authenticationService.setUser(sessionUser);          
-        }
-        this.user = res.ReturnObject;
+    this.navbarService.getData().subscribe(
+      (res:any) =>
+       {
+          if(res.ReturnObject!=null && res.ReturnObject!=undefined)
+          {
+            var sessionUser = this.authenticationService.getUser();
+            if(sessionUser!=null && sessionUser!=undefined)
+            {
+              sessionUser.Email = res.ReturnObject.Email;
+              sessionUser.UserName = res.ReturnObject.UserName;
+              this.authenticationService.setUser(sessionUser);          
+            }
+            this.user = res.ReturnObject;
+          }
       },
       (err) => {}
     );
-}
-
-getNotification() {
-  this.navbarService.getNotification().subscribe(
-    (res) => {
-      this.notifications = res;
-    },
-    (err) => {}
-  );
 }
   
   logout()
@@ -57,12 +51,10 @@ getNotification() {
 
   updateNotification()
   {
-    var Ids:any[] = [];
-    this.notifications.forEach(element => {
-      Ids.push(element.Id);
-    });
-    this.notificationService.updateNotification(Ids).subscribe( (res) => 
+    this.notificationService.getNotification().subscribe( (res) => 
     {
+      this.user.NotificationCount = 0;
+      this.notifications = res;
     },
     (err) => {});
   }

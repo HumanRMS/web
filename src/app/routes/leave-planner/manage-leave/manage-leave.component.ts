@@ -41,6 +41,7 @@ export class ManageLeaveComponent implements OnInit  {
     {
       this.getEmployees();
     }
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
   ngOnInit() {
@@ -220,6 +221,7 @@ export class ManageLeaveComponent implements OnInit  {
               this.closeModal();
             }
             this.alertService.message("Data is saved.",'success');
+            this.getData();
           }
           else
           {

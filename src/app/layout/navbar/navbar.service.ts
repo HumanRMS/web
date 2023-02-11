@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
-import { throwError } from 'rxjs';
+import { catchError, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -11,16 +11,8 @@ import { environment } from '../../../environments/environment';
 export class NavbarService {
   constructor(private http: HttpClient) {}
 
-  getProfile() {
-    return this.http.get<any>(`${environment.apiUrl}accounts/profile`)
-      .pipe(
-      );
-  }
-
-  getNotification() {
-    return this.http.get<any>(`${environment.apiUrl}notification`)
-      .pipe(
-      );
+  getData() {
+    return this.http.get<any>(`${environment.apiUrl}navbar`).pipe(catchError(this.handleError));
   }
 
   private handleError(err:any) {

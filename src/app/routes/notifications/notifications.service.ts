@@ -12,9 +12,9 @@ export class NotificationService {
 
   
 
-  updateNotification(dataObj: any[]) {
+  getNotification() {
     return this.http
-      .patch<any>(`${environment.apiUrl}notification`, dataObj)
+      .get<any>(`${environment.apiUrl}notification`)
       .pipe(catchError(this.handleError));;
   }
 

@@ -51,7 +51,7 @@
         aria-haspopup="true" aria-expanded="false">
         <i class="fa fa-bell fa-fw"></i>
         <!-- Counter - Alerts -->
-        <span class="badge badge-danger badge-counter">{{notifications.length}}</span>
+        <span *ngIf="user.NotificationCount != 0" class="badge badge-danger badge-counter">{{user.NotificationCount}}</span>
       </a>
       <!-- Dropdown - Alerts -->
       <div style="margin-left: -180px;" class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -67,7 +67,8 @@
           </div>
           <div>
             <div class="small text-gray-500">{{notification.CreatedOn | date: 'MMMM dd, yyyy'}}</div>
-            <span class="font-weight-bold">{{notification.Description}}</span>
+            <span class="font-weight-bold">{{notification.Description}}</span><br>
+            <span class="font-weight-bold">{{notification.AssignBy}}</span>
           </div>
         </a>
         <a class="dropdown-item text-center small text-gray-500" [routerLink]="['notifications']">Show All Alerts</a>
@@ -104,7 +105,7 @@
     <!-- Nav Item - User Information -->
     <li class="nav-item dropdown no-arrow mx-1">
       <a class="nav-link dropdown-toggle" id="userDropdown" role="button" data-bs-toggle="dropdown">
-        <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{user.Name}}</span>
+        <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{user.UserName}}</span>
         <img class="img-profile rounded-circle" src="assets/img/undraw_profile.svg">
       </a>
       <!-- Dropdown - User Information -->
