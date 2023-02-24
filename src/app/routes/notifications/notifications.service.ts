@@ -14,7 +14,7 @@ export class NotificationService {
 
   getNotification() {
     return this.http
-      .get<any>(`${environment.apiUrl}notification`)
+      .get<any>(`${environment.apiUrl}notification/top5`)
       .pipe(catchError(this.handleError));;
   }
 

@@ -66,11 +66,17 @@
             </div>
           </div>
           <div>
+            <div class="small text-gray-500">December 12, 2019</div>
+            <span class="font-weight-bold">A new monthly report is ready to download!</span>
+        </div>
+          <div>
             <div class="small text-gray-500">{{notification.CreatedOn | date: 'MMMM dd, yyyy'}}</div>
-            <span class="font-weight-bold">{{notification.Description}}</span><br>
-            <span class="font-weight-bold">{{notification.AssignBy}}</span>
+            <span class="font-weight-bold"  style="color: black;">{{notification.Description}}</span><br>
+            <span class="small text-gray-500"  style="color: black;">{{notification.AssignBy}}</span>
           </div>
         </a>
+
+      
         <a class="dropdown-item text-center small text-gray-500" [routerLink]="['notifications']">Show All Alerts</a>
       </div>
     </li>
