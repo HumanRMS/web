@@ -8,19 +8,16 @@
     <div class="form-group">
         <div class="card">
             <div class="card-body">
-                <!-- <full-calendar #fullcalendar [options]="calendarOptions">
+                <full-calendar #fullcalendar [options]="calendarOptions">
                     <ng-template #eventContent let-arg >
-
-                        <ul class="calenderUL" [ngSwitch]="arg.event._def.extendedProps.Status">
+                        <ul class="calenderUL">
                             <li *ngSwitchCase="leaveStatus.Pending" ><a href="javascript:void(0)" ><span class="text-warning">{{ arg.event.title }}</span></a></li>
                             <li *ngSwitchCase="leaveStatus.Approved"><a href="javascript:void(0)" ><span class="text-success">{{ arg.event.title }}</span></a></li>
                             <li *ngSwitchCase="leaveStatus.Rejected"><a href="javascript:void(0)" ><span class="text-danger" >{{ arg.event.title }}</span></a></li>
                             <li *ngSwitchCase="leaveStatus.Cancel"  ><a href="javascript:void(0)" ><span class="text-default">{{ arg.event.title }}</span></a></li>
                         </ul>
                     </ng-template>
-                </full-calendar> -->
-                <h6>Responsive Calendar For Bootstrap 4 Example</h6>
-	            <div id="calendar"></div>
+                </full-calendar>
             </div>
         </div>
     </div>

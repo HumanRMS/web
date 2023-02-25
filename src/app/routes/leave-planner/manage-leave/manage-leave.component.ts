@@ -2,9 +2,11 @@ import { formatDate } from '@angular/common';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import * as moment from 'moment';
 import { forkJoin, Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
+import { CalendarYvv } from 'src/app/shared/models/CalendarYvv.model';
 import { APIResponseStatus, AssigneeType, DurationType, LeaveEventType, LeaveStatus } from 'src/app/shared/models/Enum';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { LeavePlannerService } from '../leave-planner.service';
@@ -45,8 +47,22 @@ export class ManageLeaveComponent implements OnInit  {
   }
 
   ngOnInit() {
+    this.createCalender();
   }
 
+  createCalender()
+  {
+    var calendar = new CalendarYvv("#calendar", moment().format("Y-M-D"), "Sunday");
+    calendar.funcPer = function(ev:any){
+      console.log(ev)
+    };
+    calendar.pendingLeaves = [4,11,18,28];
+    calendar.approvedLeaves = [5,10];
+    calendar.rejectedLeaves = [25,26];
+    calendar.cancledLeaves = [22,7];
+
+    calendar.createCalendar();
+  }
 
   callAPIS(): Observable<any> {
     const response1 = this.leavePlannerService.getEmployees().pipe(catchError(error => of(error)));

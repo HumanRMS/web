@@ -11,131 +11,156 @@
         <div class="card">
             <div class="card-body">
                 <div>
-                    <form #manageLeaveForm="ngForm">
-                        <div class="row">
-                            <div class="col-sm-6">
+
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                                <div class="form-group" id="calendar"></div>
                                 <div class="form-group">
-                                    <label for="eventData">Start Date</label>
-                                    <input [disabled]="(eventModel.Id!=null && eventModel.Id != undefined && eventModel.Id!='' && eventModel.Id != 'new')" type="date" class="form-control" name="startData" id="startData" placeholder="startData" #startData="ngModel"
-                                        [(ngModel)]="eventModel.StartDate" required/>
-                                    <span class="text-danger"
-                                        *ngIf="startData.errors?.required && (startData.dirty || startData.touched)">Start Date is required 
-                                    </span>
+                                    <ul style="list-style-type: square">
+                                        <li class='text-primary'>  Leave Balance (0) </li>
+                                        <li class='text-warning'>  Pending Leave (0) </li>
+                                        <li class='text-success'>  Approved Leave (0)</li>
+                                        <li class='text-danger' >  Rejected Leave (0)  </li>
+                                        <li class='text-default'>  Cancled Leave (0)  </li>
+                                    </ul>
                                 </div>
-                            </div>
-                            
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="eventData">End Date</label>
-                                    <input [disabled]="(eventModel.Id!=null && eventModel.Id != undefined && eventModel.Id!='' && eventModel.Id != 'new')" type="date" class="form-control" name="endData" id="endData" placeholder="End Data" #endDate="ngModel"
-                                        [(ngModel)]="eventModel.EndDate" required/>
-                                    <span class="text-danger"
-                                        *ngIf="endDate.errors?.required && (endDate.dirty || endDate.touched)">End Date is required 
-                                    </span>
-                                </div>
-                            </div>
                         </div>
-
-
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="leaveType">Leave Type</label>
-                                    <ng-select appendTo="body" [disabled]="(eventModel.Id!=null && eventModel.Id != undefined && eventModel.Id!='' && eventModel.Id != 'new')" [(ngModel)]="eventModel.LeaveType" [items]="leaveTypes" bindLabel="Name" bindValue="Id"
-                                        [searchable]="true" name="leaveType" #leaveType="ngModel" required>
-                                    </ng-select>
-                                    <span class="text-danger"
-                                        *ngIf="leaveType.errors?.required && (leaveType.dirty || leaveType.touched)">Leave Type is required 
-                                    </span>
-                                </div>
-                            </div>
-                            
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="durationType">Duration Type</label>
-                                    <ng-select appendTo="body" [disabled]="(eventModel.Id!=null && eventModel.Id != undefined && eventModel.Id!='' && eventModel.Id != 'new')" [(ngModel)]="eventModel.DurationType" [items]="durationTypes" bindLabel="Name" bindValue="Id"
-                                        [searchable]="true" name="durationType" #durationType="ngModel" required>
-                                    </ng-select>
-                                    <span class="text-danger"
-                                        *ngIf="durationType.errors?.required && (durationType.dirty || durationType.touched)">Duration Type is required 
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                
-                            <div class="form-group">
-                                <label for="event">Description</label>
-                                <textarea class="form-control" name="description" id="description" placeholder="Description" #event
-                                    [(ngModel)]="eventModel.Description" rows="3" #description="ngModel" required></textarea>
-                                <span class="text-danger"
-                                    *ngIf="description.errors?.required && (description.dirty || description.touched)">Description is required 
-                                </span>
-                            </div>
-                            
-                            <div class="form-group table-responsive text-nowrap">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                        <th style="width:5%" scope="col">#</th>
-                                        <th style="width:30%" scope="col">Approver Name</th>
-                                        <th style="width:30%" scope="col">Assign Type</th>
-                                        <th style="width:20%" *ngIf="(eventModel.Id!=null && eventModel.Id != undefined && eventModel.Id!=''  && eventModel.Id != 'new')"  scope="col">Status</th>
-                                        <th style="width:15%" *ngIf="(eventModel.Id==null || eventModel.Id == undefined || eventModel.Id==''  || eventModel.Id == 'new')"  scope="col" >
-                                            <a (click)="addApprover()" href="javascript:void(0)">
-                                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
-                                            </a>
-                                        </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let item of eventModel.Reviewers;let index = index">
-                                        <th scope="row">{{index + 1}}</th>
-                                        <td>
-                                            <ng-select appendTo="body" [disabled]="(eventModel.Id!=null && eventModel.Id != undefined && eventModel.Id!='' && eventModel.Id != 'new')" [(ngModel)]="item.ReviewerId" [items]="approverList" bindLabel="Name" bindValue="Id"
-                                                [searchable]="true" name="approver{{index}}" id="approver{{index}}">
-                                            </ng-select>
-                                        </td>
-                                        <td>
-                                            <ng-select  appendTo="body"  [disabled]="(eventModel.Id!=null && eventModel.Id != undefined && eventModel.Id!='' && eventModel.Id != 'new')" [(ngModel)]="item.AssigneeType"  [items]="assignTypes" bindLabel="Name" bindValue="Id"
-                                                [searchable]="true" name="assignType{{index}}" id="assignType{{index}}">
-                                            </ng-select>
-                                        </td>
-                                        <td *ngIf="(eventModel.Id!=null && eventModel.Id != undefined && eventModel.Id!='' && eventModel.Id != 'new')">
-                                            <div [ngSwitch]="item.Status">
-                                                <label *ngSwitchCase="leaveStatus.Pending" class="text-warning">Pending</label>
-                                                <label *ngSwitchCase="leaveStatus.Approved" class="text-success">Approved</label>
-                                                <label *ngSwitchCase="leaveStatus.Rejected" class="text-danger">Rejected</label>
+                        <div class="col-sm-8">
+                            <div class="card card-default">
+                                <div class="card-body">
+                                    <form #manageLeaveForm="ngForm">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label for="eventData">Start Date</label>
+                                                    <input [disabled]="(eventModel.Id!=null && eventModel.Id != undefined && eventModel.Id!='' && eventModel.Id != 'new')" type="date" class="form-control" name="startData" id="startData" placeholder="startData" #startData="ngModel"
+                                                        [(ngModel)]="eventModel.StartDate" required/>
+                                                    <span class="text-danger"
+                                                        *ngIf="startData.errors?.required && (startData.dirty || startData.touched)">Start Date is required 
+                                                    </span>
+                                                </div>
                                             </div>
-                                        </td>
-                                        <td *ngIf="(eventModel.Id==null || eventModel.Id == undefined || eventModel.Id=='' || eventModel.Id == 'new')">
-                                            <a (click)="deleteApprover(index)" href="javascript:void(0)">
-                                                <i class="fa fa-trash" aria-hidden="true"></i>
-                                            </a>
-                                        </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                           
-                            <div class="row">
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                    <div class="text-right">
-                                        <div *ngIf="eventModel.Id==null || eventModel.Id == undefined || eventModel.Id=='' || eventModel.Id == 'new'" >
-                                            <button [disabled]="manageLeaveForm.invalid" class="btn btn-primary" type="button" (click)="create()" rippleEffect>Save</button>
-                                            <button class="btn btn-outline-secondary ml-2" type="button" (click)="backToLeavePLanner()" rippleEffect>Cancel</button>
+                                            
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label for="eventData">End Date</label>
+                                                    <input [disabled]="(eventModel.Id!=null && eventModel.Id != undefined && eventModel.Id!='' && eventModel.Id != 'new')" type="date" class="form-control" name="endData" id="endData" placeholder="End Data" #endDate="ngModel"
+                                                        [(ngModel)]="eventModel.EndDate" required/>
+                                                    <span class="text-danger"
+                                                        *ngIf="endDate.errors?.required && (endDate.dirty || endDate.touched)">End Date is required 
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div *ngIf="eventModel.Id!=null && eventModel.Id != undefined && eventModel.Id!='' && eventModel.Id != 'new'">
-                                            <button *ngIf="eventModel.CanEdit" class="btn btn-primary" type="button" (click)="update()" rippleEffect>Update</button>
-                                            <button *ngIf="eventModel.CanApprove"class="btn btn-primary" type="button" (click)="approve(leaveStatus.Approved)" rippleEffect>Approve</button>
-                                            <button *ngIf="eventModel.CanApprove"class="btn btn-danger ml-2" type="button" (click)="openModel(eventApproveTemplate)" rippleEffect>Reject</button>
-                                            <button *ngIf="eventModel.CanEdit" class="btn btn-danger ml-2" type="button" (click)="openDeleteModel(eventDeleteTemplate)" rippleEffect>Delete</button>
-                                            <button class="btn btn-outline-secondary ml-2" type="button" (click)="backToLeavePLanner()" rippleEffect>Cancel</button>
+                
+                
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label for="leaveType">Leave Type</label>
+                                                    <ng-select appendTo="body" [disabled]="(eventModel.Id!=null && eventModel.Id != undefined && eventModel.Id!='' && eventModel.Id != 'new')" [(ngModel)]="eventModel.LeaveType" [items]="leaveTypes" bindLabel="Name" bindValue="Id"
+                                                        [searchable]="true" name="leaveType" #leaveType="ngModel" required>
+                                                    </ng-select>
+                                                    <span class="text-danger"
+                                                        *ngIf="leaveType.errors?.required && (leaveType.dirty || leaveType.touched)">Leave Type is required 
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label for="durationType">Duration Type</label>
+                                                    <ng-select appendTo="body" [disabled]="(eventModel.Id!=null && eventModel.Id != undefined && eventModel.Id!='' && eventModel.Id != 'new')" [(ngModel)]="eventModel.DurationType" [items]="durationTypes" bindLabel="Name" bindValue="Id"
+                                                        [searchable]="true" name="durationType" #durationType="ngModel" required>
+                                                    </ng-select>
+                                                    <span class="text-danger"
+                                                        *ngIf="durationType.errors?.required && (durationType.dirty || durationType.touched)">Duration Type is required 
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
+                
+                                
+                                            <div class="form-group">
+                                                <label for="event">Detailed Reason</label>
+                                                <textarea class="form-control" name="description" id="description" placeholder="Detailed Reason" #event
+                                                    [(ngModel)]="eventModel.Description" rows="3" #description="ngModel" required></textarea>
+                                                <span class="text-danger"
+                                                    *ngIf="description.errors?.required && (description.dirty || description.touched)">Detailed Reason is required 
+                                                </span>
+                                            </div>
+                                            
+                                            <div class="form-group table-responsive text-nowrap">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                        <th style="width:5%" scope="col">#</th>
+                                                        <th style="width:30%" scope="col">Approver Name</th>
+                                                        <th style="width:30%" scope="col">Assign Type</th>
+                                                        <th style="width:20%" *ngIf="(eventModel.Id!=null && eventModel.Id != undefined && eventModel.Id!=''  && eventModel.Id != 'new')"  scope="col">Status</th>
+                                                        <th style="width:15%" *ngIf="(eventModel.Id==null || eventModel.Id == undefined || eventModel.Id==''  || eventModel.Id == 'new')"  scope="col" >
+                                                            <a (click)="addApprover()" href="javascript:void(0)">
+                                                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                                            </a>
+                                                        </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let item of eventModel.Reviewers;let index = index">
+                                                        <th scope="row">{{index + 1}}</th>
+                                                        <td>
+                                                            <ng-select appendTo="body" [disabled]="(eventModel.Id!=null && eventModel.Id != undefined && eventModel.Id!='' && eventModel.Id != 'new')" [(ngModel)]="item.ReviewerId" [items]="approverList" bindLabel="Name" bindValue="Id"
+                                                                [searchable]="true" name="approver{{index}}" id="approver{{index}}">
+                                                            </ng-select>
+                                                        </td>
+                                                        <td>
+                                                            <ng-select  appendTo="body"  [disabled]="(eventModel.Id!=null && eventModel.Id != undefined && eventModel.Id!='' && eventModel.Id != 'new')" [(ngModel)]="item.AssigneeType"  [items]="assignTypes" bindLabel="Name" bindValue="Id"
+                                                                [searchable]="true" name="assignType{{index}}" id="assignType{{index}}">
+                                                            </ng-select>
+                                                        </td>
+                                                        <td *ngIf="(eventModel.Id!=null && eventModel.Id != undefined && eventModel.Id!='' && eventModel.Id != 'new')">
+                                                            <div [ngSwitch]="item.Status">
+                                                                <label *ngSwitchCase="leaveStatus.Pending" class="text-warning">Pending</label>
+                                                                <label *ngSwitchCase="leaveStatus.Approved" class="text-success">Approved</label>
+                                                                <label *ngSwitchCase="leaveStatus.Rejected" class="text-danger">Rejected</label>
+                                                            </div>
+                                                        </td>
+                                                        <td *ngIf="(eventModel.Id==null || eventModel.Id == undefined || eventModel.Id=='' || eventModel.Id == 'new')">
+                                                            <a (click)="deleteApprover(index)" href="javascript:void(0)">
+                                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                                            </a>
+                                                        </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                           
+                                            <div class="row">
+                                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                    <div class="text-right">
+                                                        <div *ngIf="eventModel.Id==null || eventModel.Id == undefined || eventModel.Id=='' || eventModel.Id == 'new'" >
+                                                            <button [disabled]="manageLeaveForm.invalid" class="btn btn-primary" type="button" (click)="create()" rippleEffect>Save</button>
+                                                            <button class="btn btn-outline-secondary ml-2" type="button" (click)="backToLeavePLanner()" rippleEffect>Cancel</button>
+                                                        </div>
+                                                        <div *ngIf="eventModel.Id!=null && eventModel.Id != undefined && eventModel.Id!='' && eventModel.Id != 'new'">
+                                                            <button *ngIf="eventModel.CanEdit" class="btn btn-primary" type="button" (click)="update()" rippleEffect>Update</button>
+                                                            <button *ngIf="eventModel.CanApprove"class="btn btn-primary" type="button" (click)="approve(leaveStatus.Approved)" rippleEffect>Approve</button>
+                                                            <button *ngIf="eventModel.CanApprove"class="btn btn-danger ml-2" type="button" (click)="openModel(eventApproveTemplate)" rippleEffect>Reject</button>
+                                                            <button *ngIf="eventModel.CanEdit" class="btn btn-danger ml-2" type="button" (click)="openDeleteModel(eventDeleteTemplate)" rippleEffect>Delete</button>
+                                                            <button class="btn btn-outline-secondary ml-2" type="button" (click)="backToLeavePLanner()" rippleEffect>Cancel</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                      </form>
                                 </div>
                             </div>
-                      </form>
+                        </div>
+                    </div>
+
+
+                    
                 </div>
             </div>
         </div>
