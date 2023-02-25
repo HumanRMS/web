@@ -11510,13 +11510,13 @@ a {
     border: 1px solid #858796;
   }
 
-  .rejedted-leave-date
+  .rejected-leave-date
   {
     position: relative;
     transition: all .5s;
   }
 
-  .rejedted-leave-date:after{
+  .rejected-leave-date:after{
     content: '';
     position: absolute;
     width: 40px;
@@ -11573,5 +11573,3 @@ a {
     --bs-btn-disabled-border-color: #887ef2 !important;
     --bs-gradient: none !important;
 }
-
-/* Calneder CSS end */

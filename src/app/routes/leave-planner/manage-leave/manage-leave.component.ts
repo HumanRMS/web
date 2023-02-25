@@ -56,6 +56,7 @@ export class ManageLeaveComponent implements OnInit  {
     calendar.funcPer = function(ev:any){
       console.log(ev)
     };
+    
     calendar.pendingLeaves = [4,11,18,28];
     calendar.approvedLeaves = [5,10];
     calendar.rejectedLeaves = [25,26];
