@@ -47,7 +47,26 @@ export class ManageLeaveComponent implements OnInit  {
   }
 
   ngOnInit() {
-    this.createCalender();
+    this.getLeaves();
+  }
+
+
+  getLeaves() 
+  {
+    let success = (res: any) => 
+    {
+      debugger
+      let newDate = new Date(res[0].StartDate);
+      if(res != null && res != undefined)
+      {
+        this.createCalender();
+      }
+    };
+
+    let error = (res: any) => {
+      
+    };
+    this.leavePlannerService.getEvent().subscribe(success, error);
   }
 
   createCalender()
@@ -101,6 +120,23 @@ export class ManageLeaveComponent implements OnInit  {
     };
     this.leavePlannerService.getEmployees().subscribe(success, error);
   }
+
+  getAllLeaves() 
+  {
+    let success = (res: any) => 
+    {
+      if(res != null && res != undefined)
+      {
+        
+      }
+    };
+
+    let error = (res: any) => {
+      
+    };
+    this.leavePlannerService.getEvent().subscribe(success, error);
+  }
+
 
   getData() 
   {

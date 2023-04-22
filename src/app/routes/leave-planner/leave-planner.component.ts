@@ -8,11 +8,9 @@ import interactionPlugin, {
 } from '@fullcalendar/interaction';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { LeavePlannerService } from './leave-planner.service';
-import { AlertService } from 'src/app/shared/services/alert.service';
 import { formatDate } from '@angular/common';
-import { AssigneeType, LeaveEventType, LeaveStatus } from 'src/app/shared/models/Enum';
-import { forkJoin, Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import {  LeaveEventType, LeaveStatus } from 'src/app/shared/models/Enum';
+
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-leave-planner',
@@ -104,6 +102,8 @@ export class LeavePlannerComponent implements OnInit {
   {
     let success = (res: any) => 
     {
+      debugger
+      let newDate = new Date(res[0].StartDate);
       if(res != null && res != undefined)
       {
         this.updateEvents(res);

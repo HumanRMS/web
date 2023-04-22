@@ -25,7 +25,7 @@ export class LeavePlannerService {
       .pipe(catchError(this.handleError));;
   }
 
-  getLeave(Id:string) {
+   getLeave(Id:string) {
     return this.http
       .get<any>(`${environment.apiUrl}leavePlanner/${Id}`)
       .pipe(catchError(this.handleError));;
