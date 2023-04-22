@@ -102,8 +102,6 @@ export class LeavePlannerComponent implements OnInit {
   {
     let success = (res: any) => 
     {
-      debugger
-      let newDate = new Date(res[0].StartDate);
       if(res != null && res != undefined)
       {
         this.updateEvents(res);

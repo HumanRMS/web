@@ -6,7 +6,10 @@ export class CalendarYvv{
 	public etiqueta: any;
 	public primerDia: any;
 	public todayDate: any;
-	public funcPer: any;
+
+	public angularPerv: any;
+	public angularNext:any;
+
 	public funcNext: any;
 	public funcPrev: any;
 	public currentSelected: any;
@@ -19,8 +22,8 @@ export class CalendarYvv{
 	public __email: any;
 	public __version: any;
 	public inicioDia: any;
-	public mesSeleccionado: any;
-	public anioSeleccionado: any;
+	public selectedMonth: any;
+	public selectedYear: any;
 	public cantDias: any;
 	public diasCoto: any;
 	public diasLargo: any;
@@ -34,7 +37,8 @@ export class CalendarYvv{
 		this.primerDia = primerDia; // inicio de la semana
 		this.todayDate = todayDate==""?moment().format("Y-M-D"):todayDate; // día actual seleccionado
 
-		this.funcPer = function(e:any){}; // funcion a ejecutar al lanzar el evento click
+		this.angularPerv = function(e:any){}; // funcion a ejecutar al lanzar el evento click
+		this.angularNext = function(e:any){}; // funcion a ejecutar al lanzar el evento click
 		this.funcNext = false; // funcion a ejecutar al lanzar el evento click
 		this.funcPrev = false; // funcion a ejecutar al lanzar el evento click
 		this.currentSelected = moment().format("Y-M-D"); // elemento seleccionado
@@ -53,8 +57,8 @@ export class CalendarYvv{
 	startElements(){
 		this.todayDate = this.corregirMesA(this.todayDate);
 		this.inicioDia = moment(this.todayDate).format("dddd"); // inicio dia del mes
-		this.mesSeleccionado = this.todayDate.split("-")[1]*1; // mes seleccionado
-		this.anioSeleccionado = this.todayDate.split("-")[0]*1; // año seleccionado
+		this.selectedMonth = this.todayDate.split("-")[1]*1; // mes seleccionado
+		this.selectedYear = this.todayDate.split("-")[0]*1; // año seleccionado
 		this.cantDias = moment(this.todayDate).daysInMonth()*1; // cantidad de dias del mes
 		this.diasCoto = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 		this.diasLargo = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -81,11 +85,12 @@ export class CalendarYvv{
 		var _this = this;
 
 		arrowL.on("click", function(e:any){
-			_this.mesAnterior(_this)
+			_this.angularPerv(_this);
 		});
 		arrowR.on("click", function(e:any){
-			_this.mesSiguiente(_this)
+			_this.angularNext(_this)
 		});
+
 		cont.append(arrowL);
 		cont.append(title);
 		cont.append(arrowR);
@@ -104,7 +109,7 @@ export class CalendarYvv{
 		return cont;
 	}
 	createDaysMont(){
-		var diaSelected = this.corregirMesA(this.anioSeleccionado + "-" + this.mesSeleccionado + "-01");
+		var diaSelected = this.corregirMesA(this.selectedYear + "-" + this.selectedMonth + "-01");
 		var primerDiaMes = moment(diaSelected).format("dddd");
 		var diaInicio = this.firtsMayus(primerDiaMes); //this.firtsMayus(this.inicioDia);
 		var diasOrd = this.ordenarDiasMes(this.firtsMayus(this.primerDia));
@@ -121,7 +126,7 @@ export class CalendarYvv{
 			cnt++;
 		}
 		for(var i=0;i<this.cantDias;i++){
-			var fechNow = this.anioSeleccionado+"-"+this.mesSeleccionado+"-"+(i+1);
+			var fechNow = this.selectedYear+"-"+this.selectedMonth+"-"+(i+1);
 			var div = $("<div class='d-flex  flex-fill w-100 justify-content-center pt-3 pb-3 btn "+this.btnD+"' data-date='"+fechNow+"'>").html(i+1);
 			var clas_e = this;
 			var _ind = (this.cantDias+posMes)%7;
@@ -129,7 +134,10 @@ export class CalendarYvv{
 			//dia seleccionado
             var today = moment(this.todayDate,'Y-MM-D');
             this.todayDate = today.format('Y-M-D');
-			if(this.todayDate==fechNow){
+			
+			var todayDatte:any = moment(new Date(),'Y-MM-D');
+			var ttodayDate = todayDatte.format('Y-M-D')
+			if(ttodayDate==fechNow){
 				div = $("<div class='current-date-selected d-flex  flex-fill w-100 justify-content-center pt-3 pb-3 btn "+this.btnD+"' data-date='"+fechNow+"'>").html(i+1);
 			}
 
@@ -157,7 +165,7 @@ export class CalendarYvv{
 			div.on("click", function(e:any){
 				var daySelec = $(e.target).attr("data-date");
 				clas_e.currentSelected = daySelec;
-				clas_e.funcPer(clas_e)
+				clas_e.angularPerv(clas_e)
 			});
 			cont.append(div);
 			if(cnt==6){
@@ -204,14 +212,16 @@ export class CalendarYvv{
 		}
 		return lett;
 	}
-	mesAnterior(ev:any){
-		ev.mesSeleccionado--;
-		if(ev.mesSeleccionado==0){
-			ev.anioSeleccionado--;
-			ev.mesSeleccionado=12;
+
+
+	clickOnPrevMonth(ev:any){
+		ev.selectedMonth--;
+		if(ev.selectedMonth==0){
+			ev.selectedYear--;
+			ev.selectedMonth=12;
 		}
 		var day = ev.todayDate.split("-")[2]*1;
-		ev.todayDate = ev.anioSeleccionado + "-" + ev.mesSeleccionado + "-" + day;
+		ev.todayDate = ev.selectedYear + "-" + ev.selectedMonth + "-" + day;
 		ev.todayDate = ev.corregirMesA(ev.todayDate);
 		ev.cantDias = moment(ev.todayDate).daysInMonth()*1;
 		ev.createCalendar();
@@ -222,14 +232,15 @@ export class CalendarYvv{
 			ev.createCalendar();
 		}
 	}
-	mesSiguiente(ev:any){
-		ev.mesSeleccionado++;
-		if(ev.mesSeleccionado==13){
-			ev.anioSeleccionado++;
-			ev.mesSeleccionado=1;
+
+	clickOnNextMonth(ev:any){
+		ev.selectedMonth++;
+		if(ev.selectedMonth==13){
+			ev.selectedYear++;
+			ev.selectedMonth=1;
 		}
 		var day = ev.todayDate.split("-")[2]*1;
-		ev.todayDate = ev.anioSeleccionado + "-" + ev.mesSeleccionado + "-" + day;
+		ev.todayDate = ev.selectedYear + "-" + ev.selectedMonth + "-" + day;
 		ev.todayDate = ev.corregirMesA(ev.todayDate);
 		ev.cantDias = moment(ev.todayDate).daysInMonth()*1;
 

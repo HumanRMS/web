@@ -26,6 +26,10 @@ export class ManageLeaveComponent implements OnInit  {
   leaveStatus:any = LeaveStatus;
   modalRef: NgbModalRef;
   currentUser:any = {};
+  calendar:CalendarYvv;
+
+  leaves:any[]=[];
+
   constructor(private alertService:AlertService,
     private modalService: NgbModal,
     private leavePlannerService :LeavePlannerService,
@@ -47,18 +51,48 @@ export class ManageLeaveComponent implements OnInit  {
   }
 
   ngOnInit() {
-    this.getLeaves();
+    this.getAllLeaves();
   }
 
 
-  getLeaves() 
+  getAllLeaves() 
   {
-    let success = (res: any) => 
+    let success = (res: any[]) => 
     {
-      debugger
-      let newDate = new Date(res[0].StartDate);
       if(res != null && res != undefined)
       {
+        res.forEach(element => 
+        {
+         element.StartDateTime = new Date(element.StartDate);
+         element.EndDateTime = new Date(element.EndDate); 
+        
+          if(element.StartDateTime == element.EndDateTime)
+          {
+            this.leaves.push({ 
+              Status : element.Status,
+              Day : element.StartDateTime.getDate(),
+              Month : element.StartDateTime.getMonth()+1,
+              Year : element.StartDateTime.getFullYear() 
+            });
+          }
+          else
+          {
+            var dates = this.getDates(element.StartDate,element.EndDateTime);
+            if(dates!=null && dates!=undefined)
+            {
+              dates.forEach(innerElement => {
+                this.leaves.push({ 
+                  Status : element.Status,
+                  Day : innerElement.getDate(),
+                  Month : innerElement.getMonth()+1,
+                  Year : innerElement.getFullYear() 
+                });
+              });
+            }
+          }
+
+        });
+
         this.createCalender();
       }
     };
@@ -69,20 +103,85 @@ export class ManageLeaveComponent implements OnInit  {
     this.leavePlannerService.getEvent().subscribe(success, error);
   }
 
+  getDates(start:string, end:Date) {
+    var
+      arr = new Array(),
+      dt = new Date(start);
+  
+    while (dt <= end) {
+      arr.push(new Date(dt));
+      dt.setDate(dt.getDate() + 1);
+    }
+  
+    return arr;
+  
+  }
+
   createCalender()
   {
-    var calendar = new CalendarYvv("#calendar", moment().format("Y-M-D"), "Sunday");
-    calendar.funcPer = function(ev:any){
-      console.log(ev)
-    };
-    
-    calendar.pendingLeaves = [4,11,18,28];
-    calendar.approvedLeaves = [5,10];
-    calendar.rejectedLeaves = [25,26];
-    calendar.cancledLeaves = [22,7];
+    this.calendar = new CalendarYvv("#calendar", moment().format("Y-M-D"), "Sunday");
+    var _this = this;
+    this.calendar.angularPerv = function(ev:any)
+    {
+      ev.selectedMonth;
+      ev.selectedYear;
 
-    calendar.createCalendar();
+      _this.setCalenderDates(ev.selectedMonth - 1,ev.selectedYear);
+     ev.clickOnPrevMonth(ev);
+    };
+
+    this.calendar.angularNext = function(ev:any){
+
+      _this.setCalenderDates(ev.selectedMonth + 1,ev.selectedYear);
+      ev.clickOnNextMonth(ev);
+     };
+
+    var todayDate = new Date();
+    var currentMonth = todayDate.getMonth()+1;
+    var currentYear =  todayDate.getFullYear();
+    this.setCalenderDates(currentMonth,currentYear);
+    this.calendar.createCalendar();
   }
+
+  setCalenderDates(currentMonth:number,currentYear:number)
+  {
+    this.calendar.pendingLeaves =  [];
+    this.calendar.approvedLeaves = [];
+    this.calendar.rejectedLeaves = [];
+    this.calendar.cancledLeaves =  [];
+
+    var dates:any[] = [];
+
+    var pendingDates = this.leaves.filter(f=>f.Status == LeaveStatus.Pending && f.Month == currentMonth && f.Year == currentYear);
+    if(pendingDates!=null && pendingDates!=undefined)
+    {
+        pendingDates.forEach(element => {
+          dates.push(element.Day);
+        });
+        this.calendar.pendingLeaves = dates;
+    }
+
+    var approvedDates = this.leaves.filter(f=>f.Status == LeaveStatus.Approved && f.Month == currentMonth && f.Year == currentYear);
+    if(approvedDates!=null && approvedDates!=undefined)
+    {
+        dates = [];
+        approvedDates.forEach(element => {
+          dates.push(element.Day);
+        });
+        this.calendar.approvedLeaves = dates;
+    }
+
+    var rejectedDates = this.leaves.filter(f=>f.Status == LeaveStatus.Rejected && f.Month == currentMonth && f.Year == currentYear);
+    if(rejectedDates!=null && rejectedDates!=undefined)
+    {
+        dates = [];
+        rejectedDates.forEach(element => {
+          dates.push(element.Day);
+        });
+        this.calendar.rejectedLeaves = dates;
+    }
+  }
+
 
   callAPIS(): Observable<any> {
     const response1 = this.leavePlannerService.getEmployees().pipe(catchError(error => of(error)));
@@ -90,7 +189,6 @@ export class ManageLeaveComponent implements OnInit  {
 
     return forkJoin([response1, response2]);
   }
-
 
   getEmployees() 
   {
@@ -120,23 +218,6 @@ export class ManageLeaveComponent implements OnInit  {
     };
     this.leavePlannerService.getEmployees().subscribe(success, error);
   }
-
-  getAllLeaves() 
-  {
-    let success = (res: any) => 
-    {
-      if(res != null && res != undefined)
-      {
-        
-      }
-    };
-
-    let error = (res: any) => {
-      
-    };
-    this.leavePlannerService.getEvent().subscribe(success, error);
-  }
-
 
   getData() 
   {
