@@ -74,7 +74,7 @@
               <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                 <div class="form-group">
                   <label for="state">State</label>
-                  <ng-select [items]="states" bindLabel="Text" bindValue="Id" appendTo="body" class="form-select" id="state" #state="ngModel" name="state"
+                  <ng-select [items]="states" bindLabel="Text" bindValue="Id" appendTo="body"  id="state" #state="ngModel" name="state"
                     [(ngModel)]="organization.Address.State" required>
                   </ng-select>
                   <span class="text-danger" *ngIf="state.errors?.required && (state.dirty || state.touched)">State is
@@ -91,7 +91,14 @@
                   <span class="text-danger" *ngIf="zipCode.errors?.pattern">Zip Code is invalid.</span>
                 </div>
               </div>
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                <div class="form-group">
+                  <button id="location" name="location" class="btn btn-primary" (click)="getLocation()">Current Location</button>
+                </div>
+              </div>
             </div>
+
+
 
             <div class="row gutters" *ngIf="organizationId==null || organizationId==undefined || organizationId==''">
               <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">

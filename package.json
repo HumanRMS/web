@@ -29,6 +29,7 @@
     "@ngx-translate/http-loader": "^7.0.0",
     "@popperjs/core": "^2.11.6",
     "@swimlane/ngx-datatable": "^20.1.0",
+    "@types/googlemaps": "^3.43.3",
     "bootstrap": "^5.2.3",
     "jquery": "^3.6.3",
     "moment": "^2.29.4",

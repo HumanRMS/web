@@ -9,6 +9,7 @@ import { Default } from 'src/app/shared/models/default.model';
 import { APIResponseStatus } from 'src/app/shared/models/Enum';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { OrganizationService } from './organization.service';
+import { GeoLocationService } from 'src/app/shared/services/geo-location.service';
 
 @Component({
   selector: 'app-organization',
@@ -21,6 +22,7 @@ export class OrganizationComponent {
   organizationId: string;
   modalRef: NgbModalRef;
   descriptionClicked:boolean;
+  geoLocation:any;
 
   @ViewChild('uploadImage') uploadImage: TemplateRef<any>;
 
@@ -33,7 +35,8 @@ export class OrganizationComponent {
     private router: Router,
     private route: ActivatedRoute,
     private modalService: NgbModal,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private geoLocationService : GeoLocationService
   ) {
     this.route.params.subscribe((s) => (this.organizationId = s['id']));
     if (
@@ -46,9 +49,20 @@ export class OrganizationComponent {
       this.getStates();
       this.croppedImage = Default.DefaultOrganizationImage;
     }
+
+    
   }
 
 
+
+getLocation()
+{
+  this.geoLocationService.getCurrentPosition().then(pos=>
+    {
+      this.geoLocation = pos;
+      this.alertService.message('Location set','success')
+    });  
+}
  
 
 
@@ -167,6 +181,7 @@ export class OrganizationComponent {
     }
 
     if (form.valid) {
+      this.organization.Coordinate = this.geoLocation;
       this.organizationService.createOrganization(this.organization).subscribe(
         (res) => {
           if(res!=null&&res!=undefined)

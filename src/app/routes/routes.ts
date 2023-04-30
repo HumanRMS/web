@@ -15,7 +15,9 @@ export const routes = [
       { path:'employees', loadChildren: () => import('./employees/employees.module').then((m) => m.EmployeesModule) },
       { path:'organization', loadChildren: () => import('./organization/organization.module').then((m) => m.organizationModule) },
       { path:'leave-planner', loadChildren: () => import('./leave-planner/leave-planner.module').then((m) => m.LeavePlannerModule) },
-      { path:'notifications', loadChildren: () => import('./notifications/notifications.module').then((m) => m.NotificationsModule) }
+      { path:'notifications', loadChildren: () => import('./notifications/notifications.module').then((m) => m.NotificationsModule) },
+      { path:'dailyPunching', loadChildren: () => import('./daily-punching/daily-punching.module').then((m) => m.DailyPunchingModule) },
+      
     ],
   },
 ];
