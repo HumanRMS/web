@@ -17,7 +17,7 @@ export const routes = [
       { path:'leave-planner', loadChildren: () => import('./leave-planner/leave-planner.module').then((m) => m.LeavePlannerModule) },
       { path:'notifications', loadChildren: () => import('./notifications/notifications.module').then((m) => m.NotificationsModule) },
       { path:'dailyPunching', loadChildren: () => import('./daily-punching/daily-punching.module').then((m) => m.DailyPunchingModule) },
-      
+      { path:'projects', loadChildren: () => import('./projects/projects.module').then((m) => m.ProjectsModule)}
     ],
   },
 ];
